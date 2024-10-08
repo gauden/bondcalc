@@ -134,12 +134,12 @@ with st.form("data_entry_form"):
     # Place form elements in the first column
     with col1:
         price = st.number_input(f"Current Price ({currency_symbol})", value=1000.0)
-        face_value = st.number_input(f"Face Value ({currency_symbol})", value=1000.0)
+        coupon_rate = st.number_input("Coupon Rate (%)", value=5.0) / 100
         withholding_tax = st.number_input("Withholding Tax (%)", value=15.0)
 
     # Place form elements in the second column
     with col2:
-        coupon_rate = st.number_input("Coupon Rate (%)", value=5.0) / 100
+        face_value = st.number_input(f"Face Value ({currency_symbol})", value=1000.0)
         years = st.number_input("Years to Maturity", value=5)
         markup = st.number_input(
             f"Markup on Purchase (in {currency_symbol})", value=12.0
