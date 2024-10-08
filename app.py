@@ -55,10 +55,6 @@ st.title("Bond YTM and RR Calculator")
 with st.form("data_entry_form"):
     st.header("Enter Bond Details")
 
-# Data Entry Section
-with st.form("data_entry_form"):
-    st.header("Enter Bond Details")
-
     # Create two columns
     col1, col2 = st.columns(2)
 
