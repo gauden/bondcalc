@@ -114,25 +114,22 @@ if calculate_button:
     }
     st.table(summary_data)
 
-    # First row for YTM
-    st.metric("YTM", f"{ytm_percentage:.2f}%")
+    # Display a series of results metric cards
+    col1, col2, col3 = st.columns(3)
 
-    # Second row for Total Returns
-    col1, col2 = st.columns(2)
     with col1:
+        st.metric("YTM", f"{ytm_percentage:.2f}%")
+
+    with col2:
         st.metric(
             f"Total Return ({currency_symbol})",
             f"{currency_symbol}{total_return_absolute:.2f}",
         )
-    with col2:
-        st.metric("Total Return (%)", f"{total_return_percentage:.2f}%")
-
-    # Third row for Annualised Returns
-    col1, col2 = st.columns(2)
-    with col1:
         st.metric(
             f"Annualised Return ({currency_symbol})",
             f"{currency_symbol}{annualised_absolute:.2f}",
         )
-    with col2:
+
+    with col3:
+        st.metric("Total Return (%)", f"{total_return_percentage:.2f}%")
         st.metric("Annualised Return (%)", f"{annualised_percentage:.2f}%")
