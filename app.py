@@ -74,6 +74,7 @@ with st.form("data_entry_form"):
 
     # Place form elements in the second column
     with col2:
+        bond_name = st.text_input("Name of Bond")
         coupon_rate = st.number_input("Coupon Rate (%)", value=5.0) / 100
         years = st.number_input("Years to Maturity", value=5)
         markup = st.number_input(
@@ -126,7 +127,7 @@ if calculate_button:
         st.metric("Annualised Return (%)", f"{annualised_percentage:.2f}%")
 
     # Display a summary table of data entered
-    st.subheader("Summary of Data Entered")
+    st.subheader(f"Details for {bond_name}")
     summary_data = {
         f"Current Price ({currency_symbol})": [f"{currency_symbol}{price:.2f}"],
         f"Face Value ({currency_symbol})": [f"{currency_symbol}{face_value:.2f}"],
