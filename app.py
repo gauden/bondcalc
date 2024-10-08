@@ -4,6 +4,27 @@ import numpy as np
 
 # Function to calculate Yield to Maturity using Newton's method
 def calculate_ytm(face_value, coupon_rate, price, years, guess=0.05):
+    """
+    Calculate Yield to Maturity (YTM) of a bond using Newton's method.
+
+    Parameters
+    ----------
+    face_value : float
+        Face value of the bond
+    coupon_rate : float
+        Coupon rate of the bond
+    price : float
+        Price of the bond
+    years : int
+        Number of years to maturity
+    guess : float, optional
+        Initial guess for YTM (default is 0.05)
+
+    Returns
+    -------
+    ytm : float
+        Yield to Maturity of the bond
+    """
     coupon_payment = coupon_rate * face_value
     tolerance = 1e-6
     max_iterations = 1000
@@ -28,6 +49,31 @@ def calculate_ytm(face_value, coupon_rate, price, years, guess=0.05):
 def calculate_total_return(
     face_value, price, coupon_rate, years, markup, withholding_tax
 ):
+    """
+    Calculate the total return of a bond, in both absolute dollars and percentage terms.
+
+    Parameters
+    ----------
+    face_value : float
+        Face value of the bond
+    price : float
+        Price of the bond
+    coupon_rate : float
+        Coupon rate of the bond
+    years : int
+        Number of years to maturity
+    markup : float
+        Markup above the face value of the bond
+    withholding_tax : float
+        Withholding tax rate on coupon payments
+
+    Returns
+    -------
+    total_return_absolute : float
+        Total return of the bond in absolute dollars
+    total_return_percentage : float
+        Total return of the bond as a percentage
+    """
     adjusted_price = price + markup
     total_coupon_payments = coupon_rate * face_value * years
     total_coupon_payments_after_tax = total_coupon_payments * (
@@ -41,6 +87,25 @@ def calculate_total_return(
 
 # Function to calculate annualised return (absolute and percentage)
 def calculate_annualised_return(total_return_absolute, total_return_percentage, years):
+    """
+    Calculate annualised return of a bond, in both absolute dollars and percentage terms.
+
+    Parameters
+    ----------
+    total_return_absolute : float
+        Total return of the bond in absolute dollars
+    total_return_percentage : float
+        Total return of the bond as a percentage
+    years : int
+        Number of years to maturity
+
+    Returns
+    -------
+    annualised_absolute : float
+        Annualised return of the bond in absolute dollars
+    annualised_percentage : float
+        Annualised return of the bond as a percentage
+    """
     annualised_absolute = total_return_absolute / years
     annualised_percentage = (
         (1 + total_return_percentage / 100) ** (1 / years) - 1
