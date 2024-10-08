@@ -116,29 +116,29 @@ def calculate_annualised_return(total_return_absolute, total_return_percentage, 
 # Streamlit app setup
 st.title("Bond YTM and RR Calculator")
 
+# Select currency outside form (to be displayed in labels)
+currency = st.selectbox(
+    "Select Currency", ["Euro (€)", "US Dollar ($)", "GBP (£)"], index=0
+)
+currency_symbol = (
+    "€" if currency == "Euro (€)" else "$" if currency == "US Dollar ($)" else "£"
+)
+
 # Data Entry Section
 with st.form("data_entry_form"):
+    bond_name = st.text_input("Name of Bond")
 
     # Create two columns
     col1, col2 = st.columns(2)
 
     # Place form elements in the first column
     with col1:
-        currency = st.selectbox(
-            "Select Currency", ["Euro (€)", "US Dollar ($)", "GBP (£)"], index=0
-        )
-        currency_symbol = (
-            "€"
-            if currency == "Euro (€)"
-            else "$" if currency == "US Dollar ($)" else "£"
-        )
         price = st.number_input(f"Current Price ({currency_symbol})", value=1000.0)
         face_value = st.number_input(f"Face Value ({currency_symbol})", value=1000.0)
         withholding_tax = st.number_input("Withholding Tax (%)", value=15.0)
 
     # Place form elements in the second column
     with col2:
-        bond_name = st.text_input("Name of Bond")
         coupon_rate = st.number_input("Coupon Rate (%)", value=5.0) / 100
         years = st.number_input("Years to Maturity", value=5)
         markup = st.number_input(
