@@ -88,8 +88,8 @@ with st.form("data_entry_form"):
         )
         withholding_tax = st.number_input("Withholding Tax (%)", value=15.0)
 
-    # Submit button to calculate
-    calculate_button = st.form_submit_button("Calculate")
+        # Submit button to calculate
+        calculate_button = st.form_submit_button("Calculate")
 
 # Results Section - Only show if the button is pressed
 if calculate_button:
