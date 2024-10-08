@@ -80,8 +80,8 @@ with st.form("data_entry_form"):
             f"Markup on Purchase (in {currency_symbol})", value=12.0
         )
 
-        # Submit button to calculate
-        calculate_button = st.form_submit_button("Calculate")
+    # Submit button to calculate
+    calculate_button = st.form_submit_button("Calculate")
 
 # Results Section - Only show if the button is pressed
 if calculate_button:
