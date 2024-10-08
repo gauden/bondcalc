@@ -51,17 +51,18 @@ def calculate_annualised_return(total_return_absolute, total_return_percentage, 
 # Streamlit app setup
 st.title("Bond YTM and RR Calculator")
 
-# Currency selection
-currency = st.selectbox(
-    "Select Currency", ["Euro (€)", "US Dollar ($)", "GBP (£)"], index=0
-)
-currency_symbol = (
-    "€" if currency == "Euro (€)" else "$" if currency == "US Dollar ($)" else "£"
-)
-
 # Data Entry Section
 with st.form("data_entry_form"):
     st.header("Enter Bond Details")
+
+    # Currency selection inside the form
+    currency = st.selectbox(
+        "Select Currency", ["Euro (€)", "US Dollar ($)", "GBP (£)"], index=0
+    )
+    currency_symbol = (
+        "€" if currency == "Euro (€)" else "$" if currency == "US Dollar ($)" else "£"
+    )
+
     price = st.number_input(
         f"Current Price of the Bond ({currency_symbol})", value=1000.0
     )
@@ -97,60 +98,31 @@ if calculate_button:
         total_return_absolute, total_return_percentage, years
     )
 
-    # Display Results using custom HTML to add rounded borders
+    # Display Results
     st.header("Results")
 
     # First row for YTM
-    st.markdown(
-        f"""
-    <div style='border: 1px solid #ddd; padding: 10px; border-radius: 10px; display: inline-block;'>
-        <strong>YTM</strong><br>{ytm_percentage:.2f}%
-    </div>
-    """,
-        unsafe_allow_html=True,
-    )
+    st.metric("YTM", f"{ytm_percentage:.2f}%")
 
     # Second row for Total Returns
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown(
-            f"""
-        <div style='border: 1px solid #ddd; padding: 10px; border-radius: 10px; display: inline-block;'>
-            <strong>Total Return (Absolute)</strong><br>{currency_symbol}{total_return_absolute:.2f}
-        </div>
-        """,
-            unsafe_allow_html=True,
+        st.metric(
+            f"Total Return (Absolute) ({currency_symbol})",
+            f"{currency_symbol}{total_return_absolute:.2f}",
         )
     with col2:
-        st.markdown(
-            f"""
-        <div style='border: 1px solid #ddd; padding: 10px; border-radius: 10px; display: inline-block;'>
-            <strong>Total Return (Percentage)</strong><br>{total_return_percentage:.2f}%
-        </div>
-        """,
-            unsafe_allow_html=True,
-        )
+        st.metric("Total Return (Percentage)", f"{total_return_percentage:.2f}%")
 
     # Third row for Annualised Returns
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown(
-            f"""
-        <div style='border: 1px solid #ddd; padding: 10px; border-radius: 10px; display: inline-block;'>
-            <strong>Annualised Return (Absolute)</strong><br>{currency_symbol}{annualised_absolute:.2f}
-        </div>
-        """,
-            unsafe_allow_html=True,
+        st.metric(
+            f"Annualised Return (Absolute) ({currency_symbol})",
+            f"{currency_symbol}{annualised_absolute:.2f}",
         )
     with col2:
-        st.markdown(
-            f"""
-        <div style='border: 1px solid #ddd; padding: 10px; border-radius: 10px; display: inline-block;'>
-            <strong>Annualised Return (Percentage)</strong><br>{annualised_percentage:.2f}%
-        </div>
-        """,
-            unsafe_allow_html=True,
-        )
+        st.metric("Annualised Return (Percentage)", f"{annualised_percentage:.2f}%")
 
     # Display a summary table of data entered
     st.subheader("Summary of Data Entered")
