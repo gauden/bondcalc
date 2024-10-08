@@ -68,12 +68,9 @@ with st.form("data_entry_form"):
             if currency == "Euro (€)"
             else "$" if currency == "US Dollar ($)" else "£"
         )
-        price = st.number_input(
-            f"Current Price of the Bond ({currency_symbol})", value=1000.0
-        )
-        face_value = st.number_input(
-            f"Face Value of the Bond ({currency_symbol})", value=1000.0
-        )
+        price = st.number_input(f"Current Price ({currency_symbol})", value=1000.0)
+        face_value = st.number_input(f"Face Value ({currency_symbol})", value=1000.0)
+        withholding_tax = st.number_input("Withholding Tax (%)", value=15.0)
 
     # Place form elements in the second column
     with col2:
@@ -82,7 +79,6 @@ with st.form("data_entry_form"):
         markup = st.number_input(
             f"Markup on Purchase (in {currency_symbol})", value=12.0
         )
-        withholding_tax = st.number_input("Withholding Tax (%)", value=15.0)
 
         # Submit button to calculate
         calculate_button = st.form_submit_button("Calculate")
