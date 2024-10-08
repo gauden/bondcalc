@@ -51,17 +51,29 @@ def calculate_annualised_return(total_return_absolute, total_return_percentage, 
 # Streamlit app setup
 st.title("Bond YTM and RR Calculator")
 
+# Currency selection
+currency = st.selectbox(
+    "Select Currency", ["Euro (€)", "US Dollar ($)", "GBP (£)"], index=0
+)
+currency_symbol = (
+    "€" if currency == "Euro (€)" else "$" if currency == "US Dollar ($)" else "£"
+)
+
 # Data Entry Section
 with st.form("data_entry_form"):
     st.header("Enter Bond Details")
-    price = st.number_input("Current Price of the Bond", value=1000.0)
-    face_value = st.number_input("Face Value of the Bond", value=1000.0)
+    price = st.number_input(
+        f"Current Price of the Bond ({currency_symbol})", value=1000.0
+    )
+    face_value = st.number_input(
+        f"Face Value of the Bond ({currency_symbol})", value=1000.0
+    )
     coupon_rate = (
         st.number_input("Annual Interest Rate (Coupon Rate) as a percentage", value=5.0)
         / 100
     )
     years = st.number_input("Years until Maturity", value=5)
-    markup = st.number_input("Markup on Purchase (in dollars)", value=12.0)
+    markup = st.number_input(f"Markup on Purchase (in {currency_symbol})", value=12.0)
     withholding_tax = st.number_input(
         "Withholding Tax (in percentage, defaults to 15%)", value=15.0
     )
@@ -85,37 +97,69 @@ if calculate_button:
         total_return_absolute, total_return_percentage, years
     )
 
-    # Display Results
+    # Display Results using custom HTML to add rounded borders
     st.header("Results")
 
     # First row for YTM
-    st.subheader("Yield to Maturity (YTM)")
-    st.metric("YTM", f"{ytm_percentage:.2f}%")
+    st.markdown(
+        f"""
+    <div style='border: 1px solid #ddd; padding: 10px; border-radius: 10px; display: inline-block;'>
+        <strong>YTM</strong><br>{ytm_percentage:.2f}%
+    </div>
+    """,
+        unsafe_allow_html=True,
+    )
 
     # Second row for Total Returns
-    st.subheader("Total Returns")
     col1, col2 = st.columns(2)
     with col1:
-        st.metric("Total Return (Absolute)", f"${total_return_absolute:.2f}")
+        st.markdown(
+            f"""
+        <div style='border: 1px solid #ddd; padding: 10px; border-radius: 10px; display: inline-block;'>
+            <strong>Total Return (Absolute)</strong><br>{currency_symbol}{total_return_absolute:.2f}
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
     with col2:
-        st.metric("Total Return (Percentage)", f"{total_return_percentage:.2f}%")
+        st.markdown(
+            f"""
+        <div style='border: 1px solid #ddd; padding: 10px; border-radius: 10px; display: inline-block;'>
+            <strong>Total Return (Percentage)</strong><br>{total_return_percentage:.2f}%
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
 
     # Third row for Annualised Returns
-    st.subheader("Annualised Returns")
     col1, col2 = st.columns(2)
     with col1:
-        st.metric("Annualised Return (Absolute)", f"${annualised_absolute:.2f}")
+        st.markdown(
+            f"""
+        <div style='border: 1px solid #ddd; padding: 10px; border-radius: 10px; display: inline-block;'>
+            <strong>Annualised Return (Absolute)</strong><br>{currency_symbol}{annualised_absolute:.2f}
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
     with col2:
-        st.metric("Annualised Return (Percentage)", f"{annualised_percentage:.2f}%")
+        st.markdown(
+            f"""
+        <div style='border: 1px solid #ddd; padding: 10px; border-radius: 10px; display: inline-block;'>
+            <strong>Annualised Return (Percentage)</strong><br>{annualised_percentage:.2f}%
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
 
     # Display a summary table of data entered
     st.subheader("Summary of Data Entered")
     summary_data = {
-        "Current Price": [f"${price:.2f}"],
-        "Face Value": [f"${face_value:.2f}"],
+        f"Current Price ({currency_symbol})": [f"{currency_symbol}{price:.2f}"],
+        f"Face Value ({currency_symbol})": [f"{currency_symbol}{face_value:.2f}"],
         "Coupon Rate": [f"{coupon_rate * 100:.2f}%"],
         "Years to Maturity": [years],
-        "Markup": [f"${markup:.2f}"],
+        f"Markup ({currency_symbol})": [f"{currency_symbol}{markup:.2f}"],
         "Withholding Tax": [f"{withholding_tax:.2f}%"],
     }
     st.table(summary_data)
