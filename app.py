@@ -55,29 +55,45 @@ st.title("Bond YTM and RR Calculator")
 with st.form("data_entry_form"):
     st.header("Enter Bond Details")
 
-    # Currency selection inside the form
-    currency = st.selectbox(
-        "Select Currency", ["Euro (€)", "US Dollar ($)", "GBP (£)"], index=0
-    )
-    currency_symbol = (
-        "€" if currency == "Euro (€)" else "$" if currency == "US Dollar ($)" else "£"
-    )
+# Data Entry Section
+with st.form("data_entry_form"):
+    st.header("Enter Bond Details")
 
-    price = st.number_input(
-        f"Current Price of the Bond ({currency_symbol})", value=1000.0
-    )
-    face_value = st.number_input(
-        f"Face Value of the Bond ({currency_symbol})", value=1000.0
-    )
-    coupon_rate = (
-        st.number_input("Annual Interest Rate (Coupon Rate) as a percentage", value=5.0)
-        / 100
-    )
-    years = st.number_input("Years until Maturity", value=5)
-    markup = st.number_input(f"Markup on Purchase (in {currency_symbol})", value=12.0)
-    withholding_tax = st.number_input(
-        "Withholding Tax (in percentage, defaults to 15%)", value=15.0
-    )
+    # Create two columns
+    col1, col2 = st.columns(2)
+
+    # Place form elements in the first column
+    with col1:
+        currency = st.selectbox(
+            "Select Currency", ["Euro (€)", "US Dollar ($)", "GBP (£)"], index=0
+        )
+        currency_symbol = (
+            "€"
+            if currency == "Euro (€)"
+            else "$" if currency == "US Dollar ($)" else "£"
+        )
+        price = st.number_input(
+            f"Current Price of the Bond ({currency_symbol})", value=1000.0
+        )
+        face_value = st.number_input(
+            f"Face Value of the Bond ({currency_symbol})", value=1000.0
+        )
+
+    # Place form elements in the second column
+    with col2:
+        coupon_rate = (
+            st.number_input(
+                "Annual Interest Rate (Coupon Rate) as a percentage", value=5.0
+            )
+            / 100
+        )
+        years = st.number_input("Years until Maturity", value=5)
+        markup = st.number_input(
+            f"Markup on Purchase (in {currency_symbol})", value=12.0
+        )
+        withholding_tax = st.number_input(
+            "Withholding Tax (in percentage, defaults to 15%)", value=15.0
+        )
 
     # Submit button to calculate
     calculate_button = st.form_submit_button("Calculate")
@@ -108,21 +124,21 @@ if calculate_button:
     col1, col2 = st.columns(2)
     with col1:
         st.metric(
-            f"Total Return (Absolute) ({currency_symbol})",
+            f"Total Return ({currency_symbol})",
             f"{currency_symbol}{total_return_absolute:.2f}",
         )
     with col2:
-        st.metric("Total Return (Percentage)", f"{total_return_percentage:.2f}%")
+        st.metric("Total Return (%)", f"{total_return_percentage:.2f}%")
 
     # Third row for Annualised Returns
     col1, col2 = st.columns(2)
     with col1:
         st.metric(
-            f"Annualised Return (Absolute) ({currency_symbol})",
+            f"Annualised Return ({currency_symbol})",
             f"{currency_symbol}{annualised_absolute:.2f}",
         )
     with col2:
-        st.metric("Annualised Return (Percentage)", f"{annualised_percentage:.2f}%")
+        st.metric("Annualised Return (%)", f"{annualised_percentage:.2f}%")
 
     # Display a summary table of data entered
     st.subheader("Summary of Data Entered")
