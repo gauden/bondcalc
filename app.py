@@ -101,7 +101,18 @@ if calculate_button:
     )
 
     # Display Results
-    st.header("Results")
+    st.header(f"Results for {bond_name}")
+
+    # Display a summary table of data entered
+    summary_data = {
+        f"Current Price ({currency_symbol})": [f"{currency_symbol}{price:.2f}"],
+        f"Face Value ({currency_symbol})": [f"{currency_symbol}{face_value:.2f}"],
+        "Coupon Rate": [f"{coupon_rate * 100:.2f}%"],
+        "Years to Maturity": [years],
+        f"Markup ({currency_symbol})": [f"{currency_symbol}{markup:.2f}"],
+        "Withholding Tax": [f"{withholding_tax:.2f}%"],
+    }
+    st.table(summary_data)
 
     # First row for YTM
     st.metric("YTM", f"{ytm_percentage:.2f}%")
@@ -125,15 +136,3 @@ if calculate_button:
         )
     with col2:
         st.metric("Annualised Return (%)", f"{annualised_percentage:.2f}%")
-
-    # Display a summary table of data entered
-    st.subheader(f"Details for {bond_name}")
-    summary_data = {
-        f"Current Price ({currency_symbol})": [f"{currency_symbol}{price:.2f}"],
-        f"Face Value ({currency_symbol})": [f"{currency_symbol}{face_value:.2f}"],
-        "Coupon Rate": [f"{coupon_rate * 100:.2f}%"],
-        "Years to Maturity": [years],
-        f"Markup ({currency_symbol})": [f"{currency_symbol}{markup:.2f}"],
-        "Withholding Tax": [f"{withholding_tax:.2f}%"],
-    }
-    st.table(summary_data)
