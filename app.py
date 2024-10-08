@@ -49,7 +49,7 @@ def calculate_annualised_return(total_return_absolute, total_return_percentage, 
 
 
 # Streamlit app setup
-st.title("Bond Yield to Maturity and Total Return Calculator")
+st.title("Bond YTM and RR Calculator")
 
 # Data Entry Section
 with st.form("data_entry_form"):
@@ -87,17 +87,25 @@ if calculate_button:
 
     # Display Results
     st.header("Results")
-    col1, col2, col3, col4, col5 = st.columns(5)
 
+    # First row for YTM
+    st.subheader("Yield to Maturity (YTM)")
+    st.metric("YTM", f"{ytm_percentage:.2f}%")
+
+    # Second row for Total Returns
+    st.subheader("Total Returns")
+    col1, col2 = st.columns(2)
     with col1:
-        st.metric("Yield to Maturity (YTM)", f"{ytm_percentage:.2f}%")
-    with col2:
         st.metric("Total Return (Absolute)", f"${total_return_absolute:.2f}")
-    with col3:
+    with col2:
         st.metric("Total Return (Percentage)", f"{total_return_percentage:.2f}%")
-    with col4:
+
+    # Third row for Annualised Returns
+    st.subheader("Annualised Returns")
+    col1, col2 = st.columns(2)
+    with col1:
         st.metric("Annualised Return (Absolute)", f"${annualised_absolute:.2f}")
-    with col5:
+    with col2:
         st.metric("Annualised Return (Percentage)", f"{annualised_percentage:.2f}%")
 
     # Display a summary table of data entered
