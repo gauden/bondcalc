@@ -1,10 +1,12 @@
+
 import streamlit as st
+import numpy_financial as npf
 import numpy as np
 
 # Function to calculate Yield to Maturity
 def calculate_ytm(face_value, coupon_rate, price, years):
     coupon_payment = coupon_rate * face_value
-    ytm = np.irr([-price] + [coupon_payment] * years + [face_value + coupon_payment])
+    ytm = npf.irr([-price] + [coupon_payment] * (years - 1) + [coupon_payment + face_value])
     return ytm
 
 # Function to calculate total return
