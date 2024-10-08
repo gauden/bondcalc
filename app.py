@@ -39,6 +39,15 @@ def calculate_total_return(
     return total_return_absolute, total_return_percentage
 
 
+# Function to calculate annualised return (absolute and percentage)
+def calculate_annualised_return(total_return_absolute, total_return_percentage, years):
+    annualised_absolute = total_return_absolute / years
+    annualised_percentage = (
+        (1 + total_return_percentage / 100) ** (1 / years) - 1
+    ) * 100
+    return annualised_absolute, annualised_percentage
+
+
 # Streamlit app setup
 st.title("Bond Yield to Maturity and Total Return Calculator")
 
@@ -71,9 +80,14 @@ if calculate_button:
         face_value, price, coupon_rate, years, markup, withholding_tax
     )
 
+    # Calculate Annualised Returns
+    annualised_absolute, annualised_percentage = calculate_annualised_return(
+        total_return_absolute, total_return_percentage, years
+    )
+
     # Display Results
     st.header("Results")
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4, col5 = st.columns(5)
 
     with col1:
         st.metric("Yield to Maturity (YTM)", f"{ytm_percentage:.2f}%")
@@ -81,12 +95,19 @@ if calculate_button:
         st.metric("Total Return (Absolute)", f"${total_return_absolute:.2f}")
     with col3:
         st.metric("Total Return (Percentage)", f"{total_return_percentage:.2f}%")
+    with col4:
+        st.metric("Annualised Return (Absolute)", f"${annualised_absolute:.2f}")
+    with col5:
+        st.metric("Annualised Return (Percentage)", f"{annualised_percentage:.2f}%")
 
     # Display a summary table of data entered
     st.subheader("Summary of Data Entered")
-    st.write(f"- **Current Price**: ${price:.2f}")
-    st.write(f"- **Face Value**: ${face_value:.2f}")
-    st.write(f"- **Coupon Rate**: {coupon_rate * 100:.2f}%")
-    st.write(f"- **Years until Maturity**: {years}")
-    st.write(f"- **Markup**: ${markup:.2f}")
-    st.write(f"- **Withholding Tax**: {withholding_tax:.2f}%")
+    summary_data = {
+        "Current Price": [f"${price:.2f}"],
+        "Face Value": [f"${face_value:.2f}"],
+        "Coupon Rate": [f"{coupon_rate * 100:.2f}%"],
+        "Years to Maturity": [years],
+        "Markup": [f"${markup:.2f}"],
+        "Withholding Tax": [f"{withholding_tax:.2f}%"],
+    }
+    st.table(summary_data)
